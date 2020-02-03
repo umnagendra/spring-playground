@@ -5,10 +5,16 @@
     <title>Taco Cloud</title>
 </head>
 <body>
-<h1>Design your Taco!</h1>
-<img th:src="@{/images/TacoCloud.jpg}"/>
+<form method="POST" th:action="@{/design}" th:object="${design}">
+    <h1>Design your Taco!</h1>
+    <img th:src="@{/images/TacoCloud.jpg}"/>
 
-<form method="POST" th:object="${design}">
+    <div th:if="${#fields.hasErrors()}">
+        <span class="validationError">
+            Please correct the problems below and resubmit.
+        </span>
+    </div>
+
     <div class="grid">
         <div class="ingredient-group" id="wraps">
             <h3>Designate your wrap:</h3>
