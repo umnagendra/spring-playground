@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 public class Taco {
@@ -15,12 +16,18 @@ public class Taco {
     @Size(min = 1, message = "Choose at least ONE ingredient")
     private List<String> ingredients;
 
+    private Long id;
+    private Date createdAt;
+
+
     public Taco() {
     }
 
-    public Taco(String name, List<String> ingredients) {
+    public Taco(String name, List<String> ingredients, Long id, Date createdAt) {
         this.name = name;
         this.ingredients = ingredients;
+        this.id = id;
+        this.createdAt = createdAt;
     }
 
     public String getName() {
@@ -37,6 +44,22 @@ public class Taco {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

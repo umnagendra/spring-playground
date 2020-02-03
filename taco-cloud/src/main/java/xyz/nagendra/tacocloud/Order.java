@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 public class Order {
 
@@ -33,10 +34,13 @@ public class Order {
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
+    private Long id;
+    private Date createdAt;
+
     public Order() {
     }
 
-    public Order(String name, String street, String city, String state, String zip, String ccNumber, String ccExpiration, String ccCVV) {
+    public Order(String name, String street, String city, String state, String zip, String ccNumber, String ccExpiration, String ccCVV, Long id, Date createdAt) {
         this.name = name;
         this.street = street;
         this.city = city;
@@ -45,6 +49,8 @@ public class Order {
         this.ccNumber = ccNumber;
         this.ccExpiration = ccExpiration;
         this.ccCVV = ccCVV;
+        this.id = id;
+        this.createdAt = createdAt;
     }
 
     public String getName() {
@@ -109,6 +115,22 @@ public class Order {
 
     public void setCcCVV(String ccCVV) {
         this.ccCVV = ccCVV;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
