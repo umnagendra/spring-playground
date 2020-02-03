@@ -50,7 +50,7 @@ public class DesignTacoController {
     public String processDesign(Taco taco) {
         // TODO save the taco designs
         LOGGER.info("Received taco design for saving: {}", taco);
-        return "/orders/current";
+        return "redirect:/orders/current";
     }
 
     private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
