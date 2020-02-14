@@ -1,5 +1,6 @@
 package xyz.nagendra.conferencedemo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Type;
 
@@ -39,7 +40,7 @@ public class Speaker {
     private byte[] photo;
 
     @ManyToMany(mappedBy = "speakers")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Session> sessions;
 
     public Speaker() {

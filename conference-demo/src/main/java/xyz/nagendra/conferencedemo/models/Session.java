@@ -1,6 +1,7 @@
 package xyz.nagendra.conferencedemo.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Session {
             name = "session_speakers",
             joinColumns = @JoinColumn(name = "session_id"),
             inverseJoinColumns = @JoinColumn(name = "speaker_id"))
-    @JsonBackReference
+    @JsonManagedReference
     private List<Speaker> speakers;
 
     public Session() {
