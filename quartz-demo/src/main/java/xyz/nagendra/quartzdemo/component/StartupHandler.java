@@ -10,14 +10,14 @@ import xyz.nagendra.quartzdemo.entity.JobInfo;
 import xyz.nagendra.quartzdemo.service.ConfigService;
 
 @Component
-public class SchedulerStartupHandler implements ApplicationRunner {
+public class StartupHandler implements ApplicationRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerStartupHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartupHandler.class);
 
     private final ConfigService configService;
 
     @Autowired
-    public SchedulerStartupHandler(ConfigService configService) {
+    public StartupHandler(ConfigService configService) {
         this.configService = configService;
     }
 
@@ -30,10 +30,11 @@ public class SchedulerStartupHandler implements ApplicationRunner {
                 "1. Containerize app" +
                 "2. Multiple instances - clustering" +
                 "3. REST APIs for creating+managing jobs" +
-                "4. Denormalize DB schema (JOBS + TRIGGERS separately)" +
-                "5. API auth - basic" +
-                "6. API auth - OAuth (cisco webex / anything open)" +
-                "7. Swagger documentation for all APIs" +
+                "4. Improve DB schema" +
+                "5. Fix + add unit tests for REST API flows" +
+                "6. API auth - basic" +
+                "7. API auth - OAuth (cisco webex / anything open)" +
+                "8. Swagger documentation for all APIs" +
                 "------");
 
         for (int i = 0; i < 100; i++) {
