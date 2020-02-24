@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import xyz.nagendra.quartzdemo.entity.JobInfo;
 import xyz.nagendra.quartzdemo.service.ConfigService;
+import xyz.nagendra.quartzdemo.service.SchedulerService;
 
 @Component
 public class StartupHandler implements ApplicationRunner {
@@ -15,14 +16,16 @@ public class StartupHandler implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(StartupHandler.class);
 
     private final ConfigService configService;
+    private final SchedulerService schedulerService;
 
     @Autowired
-    public StartupHandler(ConfigService configService) {
+    public StartupHandler(ConfigService configService, SchedulerService schedulerService) {
         this.configService = configService;
+        this.schedulerService = schedulerService;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         LOGGER.info("--- START ---");
 
         LOGGER.info("TODOs:" +
@@ -37,10 +40,20 @@ public class StartupHandler implements ApplicationRunner {
                 "8. Swagger documentation for all APIs" +
                 "------");
 
-        for (int i = 0; i < 100; i++) {
-            configService.save(createJobInfo("TEST-001-" + System.nanoTime()))
-                    .onFailure(throwable -> LOGGER.error("Failed to save job!", throwable));
-        }
+        LOGGER.info("Deleting all stored jobs in DB ...");
+        configService.deleteAll()
+                .onSuccess(aVoid -> {
+                    LOGGER.info("Successfully deleted all jobs in DB");
+                    configService.save(createJobInfo("TEST-SIMPLE-JOB"));
+                })
+                .onFailure(throwable -> LOGGER.info("Failed to delete all jobs in DB.", throwable));
+
+        configService.list()
+                .onSuccess(jobInfos -> LOGGER.info("There are {} job(s) in the DB.", jobInfos.size()))
+                .onFailure(throwable -> LOGGER.error("Failed to access jobs from DB.", throwable));
+
+        schedulerService.deleteJob("TEST-SIMPLE-JOB");
+        schedulerService.scheduleAllJobs();
     }
 
     private JobInfo createJobInfo(String name) {
@@ -48,9 +61,9 @@ public class StartupHandler implements ApplicationRunner {
         jobInfo.setName(name);
         jobInfo.setGroup("demo group");
 
-        jobInfo.setCron(true);
-        jobInfo.setCronExpression("*/1 * * * *");
-        jobInfo.setJobClass("com.example.com.ExampleJob");
+        jobInfo.setCron(false);
+        jobInfo.setRepeatTimes(60000L);
+        jobInfo.setJobClass("xyz.nagendra.quartzdemo.job.SimpleTestJob");
 
         return jobInfo;
     }
