@@ -38,4 +38,9 @@ public class ConfigServiceImpl implements ConfigService {
     public Try<Void> delete(String id) {
         return Try.run(() -> jobInfoRepository.deleteById(id));
     }
+
+    @Override
+    public Try<Void> deleteAll() {
+        return Try.run(jobInfoRepository::deleteAll);
+    }
 }

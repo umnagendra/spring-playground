@@ -10,4 +10,5 @@ public interface ConfigService {
     Try<List<JobInfo>> list();
     Try<JobInfo> get(String name);
     Try<Void> delete(String name);
+    Try<Void> deleteAll();
 }
